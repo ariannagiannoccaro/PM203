@@ -1,10 +1,9 @@
+import { mostrarProductos } from './crud.js';
+import { agregarPedido, mostrarPedidos } from './caja.js';
+import { createInterface } from 'readline';
 
-import { mostrarProductos } from './crud.js'; 
-import { agregarPedido} from './caja.js';
-import { mostrarTotal} from './caja.js';
-
-
-
+const rl = createInterface({ input: process.stdin, output: process.stdout });
+const preguntar = (msg) => new Promise(r => rl.question(msg, r));
 
 console.log(`
         ********************************
@@ -12,19 +11,17 @@ console.log(`
         ********************************
 `);
 
-
 mostrarProductos();
 
-while (true){
-
-    console.log('¿Deseas agregar un producto?');
-    if (confirm('¿Deseas agregar otro producto?')){
-        agregarPedido();
+while (true) {
+    let resp = await preguntar('¿Agregar producto? (s/n): ');
+    if (resp === 's') {
+        let id = parseInt(await preguntar('ID del producto: '));
+        let cant = parseInt(await preguntar('Cantidad: '));
+        agregarPedido(id, cant);
     } else {
-        console.log('Terminando compra... ');
-
+        mostrarPedidos();
         break;
     }
-
-
 }
+rl.close();
