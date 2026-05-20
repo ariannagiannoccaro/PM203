@@ -4,14 +4,22 @@ export function agregarProducto() {
     catalogo.push(producto);
 }
 
-export function mostrarProductos() {
+export function mostrarMenu() {
     console.table(catalogo);
 }
 
-export function eliminarProducto(id) {
-    const index = catalogo.findIndex(p => p.id === id);
-    if (index !== -1) {
-        catalogo.splice(index, 1);
-    }
+export function obtenerProductosBaratos() {
+    return catalogo.filter((p) => p.precio <= 5);
+}
 
+export function obtenerProductosCaros() {
+    return catalogo.filter((p) => p.precio > 5);
+}
+
+export function obtenerBebidas() {
+    return catalogo.filter((p) => p.categoria === "Bebida");
+}
+
+export function obtenerSnacks() {
+    return catalogo.filter((p) => p.categoria === "Snack");
 }
