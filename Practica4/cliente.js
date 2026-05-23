@@ -1,10 +1,7 @@
 import { catalogo } from './catalogo.js';
-import { agregarPedido, mostrarPedidos, calcularTotales, reiniciarCaja } from './caja.js';
-import { obtenerProductosBaratos, obtenerProductosCaros, obtenerBebidas, obtenerSnacks } from './crud.js';
+import { agregarPedido, mostrarPedidos, calcularTotales, reiniciarCaja, obtenerPedidos } from './caja.js';
+import { obtenerProductosBaratos, obtenerProductosCaros, obtenerBebidas, obtenerSnacks, mostrarMenu, verificarIngredientes, prepararCafe } from './cocina.js';
 import { createInterface } from 'readline';
-import { mostrarMenu } from './crud.js';
-import { prepararEnCocina } from './cocina.js';
-
 const rl = createInterface({ input: process.stdin, output: process.stdout });
 const preguntar = (msg) => new Promise(r => rl.question(msg, r));
 
@@ -84,25 +81,27 @@ async function menuFiltros() {
 }
 
 async function estadoPedido() {
+    const pedidos = obtenerPedidos();
+    if (pedidos.length === 0) return;
+
     console.log("\n[Cliente] Pedido recibido. Enviando a cocina...");
 
-    try {
-        setTimeout(() => {
-            console.log("[Sistema] Estado actualizado: Preparando...");
-        }, 1500);
-        
-        setTimeout(() => {
-            console.log("[Sistema] Estado actualizado: Empacando...");
-        }, 3000);
+    for (let pedido of pedidos) {
+        try {
+            console.log(`\n[Sistema] Verificando stock para: ${pedido.nombre}...`);
+            const verif = await verificarIngredientes(pedido.nombre);
+            console.log(`[Cocina] ${verif.mensaje}`);
 
-        const resultado = await prepararEnCocina([{ nombre: 'Pedido actual' }]);
-        
-        console.log(`\n[Cliente] Éxito: ${resultado.mensaje}`);
-        console.log("[Cliente] Pedido entregado al cliente.");
-    } catch (error) {
-        console.log(`\n[Error] Ocurrió un problema: ${error.message}`);
-        console.log("[Cliente] Pedido cancelado.");
+            console.log(`[Sistema] Preparando: ${pedido.nombre}...`);
+            const prep = await prepararCafe(pedido.nombre);
+            console.log(`[Cocina] ${prep.mensaje}`);
+            
+        } catch (error) {
+            console.log(`\n[Error] Ocurrió un problema con ${pedido.nombre}: ${error.mensaje}`);
+            console.log("[Cliente] Producto cancelado.");
+        }
     }
+    console.log("\n[Cliente] Todos los productos han sido procesados.");
 }
 
 async function main() {
