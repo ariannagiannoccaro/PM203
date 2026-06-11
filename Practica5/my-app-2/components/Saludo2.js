@@ -4,7 +4,7 @@ export const Saludo2 = () => {
     return (
         <View>
              <Image source={require('../assets/wave.png')}/>
-             <Text>Soy un component compouesto </Text>
+             <Text>Soy un component compuesto </Text>
              <Button title="hola 203"> </Button>
         </View>
     )

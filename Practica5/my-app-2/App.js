@@ -2,28 +2,44 @@
 
 import { StatusBar } from 'expo-status-bar'; //puede ser opcion quitarlo o no 
 import { StyleSheet, Text, View, Image } from 'react-native';
-import {Saludo} from './components/Saludo';
-import {Saludo2} from './components/Saludo2';
-import {Perfil} from './components/Perfil';
+import { Saludo } from './components/Saludo';
+import { Saludo2 } from './components/Saludo2';
+import { Perfil } from './components/Perfil';
 
 // zona2 main aquí van los componetes
 export default function App() {
   return (
     <View style={styles.container}>
       <Image></Image>
-      <Image source={require('./assets/wave.png')}/>
+      <Image source={require('./assets/wave.png')} />
       <Text>!------------------Componentes Nativos------------------</Text>
       <Text>!Hola mundo React Native</Text>
 
       <Text>!------------------Componentes Propios simples-----------</Text>
       <Saludo></Saludo>
-      
-      
+
+
       <Text>!------------------Componentes Propios Compuestos------</Text>
       {/* <Saludo></Saludo> */}
       <Saludo2></Saludo2>
       <Text>!------------------Componentes Perfil------</Text>
-      <Perfil></Perfil>
+
+      <Perfil
+        nombre="Arianna"
+        carrera="Ingenieria en Sistemas"
+        materia="Programacion Movil"
+        cuatri="9no">
+
+      </Perfil>
+      <Text>------------------------------------</Text>
+      <Text>------------------------------------</Text>
+      <Perfil
+        nombre="Jorge"
+        carrera="Ingenieria en Sistemas"
+        materia="BD"
+        cuatri="10">
+
+      </Perfil>
       <StatusBar style="auto" />
     </View>
   );
