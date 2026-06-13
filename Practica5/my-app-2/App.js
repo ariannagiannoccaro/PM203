@@ -10,20 +10,6 @@ import { Perfil } from './components/Perfil';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Image></Image>
-      <Image source={require('./assets/wave.png')} />
-      <Text>!------------------Componentes Nativos------------------</Text>
-      <Text>!Hola mundo React Native</Text>
-
-      <Text>!------------------Componentes Propios simples-----------</Text>
-      <Saludo></Saludo>
-
-
-      <Text>!------------------Componentes Propios Compuestos------</Text>
-      {/* <Saludo></Saludo> */}
-      <Saludo2></Saludo2>
-      <Text>!------------------Componentes Perfil------</Text>
-
       <Perfil
         nombre="Arianna"
         carrera="Ingenieria en Sistemas"
@@ -31,8 +17,6 @@ export default function App() {
         cuatri="9no">
 
       </Perfil>
-      <Text>------------------------------------</Text>
-      <Text>------------------------------------</Text>
       <Perfil
         nombre="Jorge"
         carrera="Ingenieria en Sistemas"

@@ -1,39 +1,46 @@
 //perfil usando destructuracion 
-import { View, Text, Button } from 'react-native'
-import React, {useState} from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native'
+import React, { useState } from 'react';
 
-export const Perfil = ({nombre,carrera,materia,cuatri}) => {
-    const [mostrar, setMostrar] = useState (false);
+export const Perfil = ({ nombre, carrera, materia, cuatri }) => {
+    const [mostrar, setMostrar] = useState(false);
     return (
-        <View>
-            <Text>{nombre}</Text>
+        <View style={styles.tarjeta}>
+            <Text style={styles.nombre} >{nombre}</Text>
 
             {/* Renderizado condicional */}
-            {mostrar && 
-            /* Fragments*/
-            <>
-            <Text>{carrera}</Text>
-            <Text>{materia}</Text>
-            <Text>{cuatri}</Text>
-            </>
+            {mostrar &&
+                /* Fragments*/
+                <>
+                    <Text style={styles.carrera}>{carrera}</Text>
+                    <Text style={styles.otroTexto}>{materia}</Text>
+                    <Text style={styles.otroTexto}>{cuatri}</Text>
+                </>
             }
-            <Button title="Mostrar Perfil" onPress={()=>setMostrar(!mostrar)} />
+            <Button title="Mostrar Perfil" onPress={() => setMostrar(!mostrar)} />
         </View>
     )
 }
 
-
-/* perfil usando props*/ 
-
-// import { View, Text, Button } from 'react-native'
-
-// export const Perfil = (props) => {
-//     return (
-//         <View>
-//             <Text>{props.nombre}</Text>
-//             <Text>{props.carrera}</Text>
-//             <Text>{props.materia}</Text>
-//             <Text>{props.cuatri}</Text>
-//         </View>
-//     )
-// }
+const styles = StyleSheet.create({
+    nombre: {
+        fontSize: 24, //tamaño de letra
+        fontWeight: 600, //es poner negritas, 100 es la más delgado y 900 la más gruesa
+        textTransform: 'uppercase', //transforma el texto a mayúsculas
+    },
+    carrera: {
+        fontSize: 18,
+        color: 'blue',
+        fontFamily: 'Roboto',
+    },
+    otroTexto: {
+        fontSize: 12,
+        fontFamily: 'Courier',
+        fontStyle: 'italic',
+    },
+    tarjeta: {
+        borderWidth: 2, //ancho del contorno de la tarjeta
+        padding: 25, //margen interno
+        margin: 15,
+    },
+})
