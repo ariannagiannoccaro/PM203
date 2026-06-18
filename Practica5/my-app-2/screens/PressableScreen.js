@@ -2,22 +2,18 @@
 
 import { StatusBar } from 'expo-status-bar'; //puede ser opcion quitarlo o no 
 import { StyleSheet, Text, View, } from 'react-native';
-import MenuScreen from './screens/MenuScreen';
 
 
 // zona2 main aquí van los componetes
-export default function App() {
+export default function PressableScreen() {
   return (
     <View style={styles.container}>
-
-      <MenuScreen></MenuScreen>
-
+      <Text>Aqui va la practica de Roque </Text>
       <StatusBar style="auto" />
 
     </View>
   );
 }
-
 
 // Zona 3 Estilos y Posicionamiento
 const styles = StyleSheet.create({
@@ -25,8 +21,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
+    justifyContent: 'flex-start',
+    flexDirection: 'row' 
+  }, 
 
 });
