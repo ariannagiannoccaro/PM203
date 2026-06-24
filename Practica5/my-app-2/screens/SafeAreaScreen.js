@@ -1,28 +1,154 @@
-// zona1: importaciones de componetes y archivos  
+import React, { useState } from "react";
+import { StatusBar } from "expo-status-bar";
+import {
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+} from "react-native";
 
-import { StatusBar } from 'expo-status-bar'; //puede ser opcion quitarlo o no 
-import { StyleSheet, Text, View, } from 'react-native';
-
-
-// zona2 main aquí van los componetes
 export default function SafeAreaScreen() {
+  const [mensaje, setMensaje] = useState(
+    "Bienvenidos a nuestra práctica de SafeAreaView y ScrollView",
+  );
+
   return (
-    <View style={styles.container}>
-      <Text>Aqui va la practica de Mary </Text>
+    <SafeAreaView style={styles.container}>
       <StatusBar style="auto" />
 
-    </View>
+      <ScrollView
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={true}
+      >
+        <Text style={styles.titulo}>Práctica: SafeAreaView y ScrollView</Text>
+
+        <View style={styles.tarjeta}>
+          <Text style={styles.subtitulo}>Integrantes</Text>
+          <Text style={styles.texto}>
+            Arianna Giannoccaro{"\n"}
+            Guillermo Alvarez Sanchez{"\n"}
+            Cristopher Muñoz Prado
+          </Text>
+        </View>
+
+        <View style={styles.tarjeta}>
+          <Text style={styles.subtitulo}>Comidas Favoritas</Text>
+          <Text style={styles.texto}>
+            Pizza{"\n"}
+            Hamburguesa{"\n"}
+            Tacos
+          </Text>
+        </View>
+
+        <View style={styles.tarjeta}>
+          <Text style={styles.subtitulo}>Equipos Favoritos</Text>
+          <Text style={styles.texto}>
+            Futbol Club Barcelona{"\n"}
+            Arsenal
+            Chelsea
+          </Text>
+        </View>
+
+        <View style={styles.tarjeta}>
+          <Text style={styles.subtitulo}>Películas Favoritas</Text>
+          <Text style={styles.texto}>
+            Orgullo y prejuicio{"\n"}
+            Papita Mani y Tostón{"\n"}
+            Como si fuera la primera vez
+          </Text>
+        </View>
+
+        <View style={styles.tarjeta}>
+          <Text style={styles.subtitulo}>Información Extra</Text>
+          <Text style={styles.texto}>
+            Este ejemplo demuestra el uso de SafeAreaView y ScrollView en React
+            Native.
+          </Text>
+        </View>
+
+        <View style={styles.tarjeta}>
+          <Text style={styles.subtitulo}>Ejemplo de State</Text>
+
+          <Text style={styles.texto}>{mensaje}</Text>
+
+          <Pressable
+            style={styles.boton}
+            onPress={() => setMensaje("El State cambió correctamente")}
+          >
+            <Text style={styles.textoBoton}>Cambiar Mensaje</Text>
+          </Pressable>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
-// Zona 3 Estilos y Posicionamiento
+/* ESTILOS */
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-    flexDirection: 'row' 
-  }, 
+    backgroundColor: "#F1F5F9",
+  },
 
+  scrollContainer: {
+    padding: 20,
+    paddingTop: 35,
+    paddingBottom: 40,
+  },
+
+  titulo: {
+    fontSize: 30,
+    fontWeight: "bold",
+    textAlign: "center",
+    color: "#0F172A",
+    marginTop: 10,
+    marginBottom: 20,
+  },
+
+  tarjeta: {
+    backgroundColor: "#FFFFFF",
+    padding: 20,
+    borderRadius: 15,
+    marginBottom: 18,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.15,
+    shadowRadius: 6,
+
+    elevation: 5,
+  },
+
+  subtitulo: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#2563EB",
+    marginBottom: 10,
+  },
+
+  texto: {
+    fontSize: 16,
+    color: "#334155",
+    lineHeight: 24,
+  },
+
+  boton: {
+    backgroundColor: "#2563EB",
+    padding: 12,
+    borderRadius: 10,
+    marginTop: 15,
+  },
+
+  textoBoton: {
+    color: "#FFFFFF",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 16,
+  },
 });
