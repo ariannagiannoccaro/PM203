@@ -5,7 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 export default function TabsLayout() {
     return (
         <Tabs>
-            <Tabs.Screen name="index" options={{ title: "Inicio", href: null }} />
+            <Tabs.Screen name="index" options={{ title: "Inicio", tabBarButton: () => null }} />
 
             <Tabs.Screen name="alta" options={{
                 title: "Formulario",
