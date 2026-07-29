@@ -1,16 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {SafeAreaView,View,Text,FlatList,StyleSheet,
 } from 'react-native';
 
 export default function ConsultaUsuariosScreen() {
 
-  const usuarios = [
-    { id: '1', nombre: 'Isay Guerra', edad: 22 },
-    { id: '2', nombre: 'Ana López', edad: 19 },
-    { id: '3', nombre: 'Carlos Gonzalez', edad: 25 },
-    { id: '4', nombre: 'Bjork Guerra', edad: 21 },
-    { id: '5', nombre: 'Luisa Martínez', edad: 28 },
-  ];
+  const [usuarios, setUsuario]= useState([]);
+
+  const obtenerUsuarios = async() =>{
+    try{
+      const respuesta = await fetch('http://localhost:5000/v1/usuarios/'); //poner la ip de mi pc para consultar desde el celular 
+      const datos = await respuesta.json();
+      console.log("Respuesta API: ", datos);
+      setUsuario(datos.usuarios);
+    }catch(error){
+      console.log("Error API: ", error);
+    }
+  };
+
+  useEffect(()=>{obtenerUsuarios();},[]);
 
   const renderTarjeta = ({ item }) => (
     <View style={styles.card}>
