@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import {View,SafeAreaView,Text,TextInput,Pressable,StyleSheet,Alert, Platform} from 'react-native';
+import {View,Text,TextInput,Pressable,StyleSheet,Alert, Platform} from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '../config/api';
 
 export default function App() {
   const [nombre, setNombre] = useState('');
@@ -22,13 +24,18 @@ export default function App() {
 
     try{
       setCargando(true)
-      const respuesta = await fetch('http://localhost:5000/v1/usuarios/',
+      const respuesta = await fetch(`${API_URL}/v1/usuarios/`,
         {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({nombre:nombre, edad:edad})
+          body: JSON.stringify({nombre: nombre.trim(), edad: Number(edad)})
         });
       const datos = await respuesta.json();
+
+      if (!respuesta.ok) {
+        throw new Error(datos.detail ?? 'La API rechazó la petición');
+      }
+
       console.log(datos);
       mostrarMensaje('Exito', 'Se guardo el usuario');
 
@@ -37,7 +44,7 @@ export default function App() {
 
     }catch(error){
       console.log("Error API: ", error);
-      mostrarMensaje("Error", "No fue posible guardar");
+      mostrarMensaje("Error", `No fue posible guardar: ${error.message}`);
 
     }finally{
       setCargando(false);

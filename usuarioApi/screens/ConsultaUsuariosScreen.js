@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {SafeAreaView,View,Text,FlatList,StyleSheet,
+import {View,Text,FlatList,StyleSheet,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { API_URL } from '../config/api';
 
 export default function ConsultaUsuariosScreen() {
 
@@ -8,8 +10,13 @@ export default function ConsultaUsuariosScreen() {
 
   const obtenerUsuarios = async() =>{
     try{
-      const respuesta = await fetch('http://localhost:5000/v1/usuarios/'); //poner la ip de mi pc para consultar desde el celular 
+      const respuesta = await fetch(`${API_URL}/v1/usuarios/`);
       const datos = await respuesta.json();
+
+      if (!respuesta.ok) {
+        throw new Error(datos.detail ?? 'La API rechazó la petición');
+      }
+
       console.log("Respuesta API: ", datos);
       setUsuario(datos.usuarios);
     }catch(error){
@@ -43,7 +50,7 @@ export default function ConsultaUsuariosScreen() {
 
       <FlatList
         data={usuarios}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.id)}
         renderItem={renderTarjeta}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
