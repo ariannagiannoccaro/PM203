@@ -2,11 +2,11 @@
   "expo": {
     "name": "repa2",
     "slug": "repa2",
-    "scheme": "usuarioapi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/splash-icon.png",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",

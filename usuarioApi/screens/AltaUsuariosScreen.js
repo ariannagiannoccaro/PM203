@@ -1,52 +1,67 @@
 import React, { useState } from 'react';
-import {View,Text,TextInput,Pressable,StyleSheet,Alert, Platform} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { API_URL } from '../config/api';
+import { Alert, Platform, View, SafeAreaView, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import Constants from 'expo-constants';
+import { resolveApiBaseUrl } from '../config/apiConfig.mjs';
+
+const API_BASE_URL = resolveApiBaseUrl({
+  platform: Platform.OS,
+  expoHostUri: Constants.expoConfig?.hostUri,
+});
+
+console.log('API_BASE_URL:', API_BASE_URL);
 
 export default function App() {
   const [nombre, setNombre] = useState('');
   const [edad, setEdad] = useState('');
-  const [cargando, setCargando] = useState(false); 
+  const [cargando, setCargando] = useState(false);
 
-  const mostrarMensaje = (titulo, mensaje) =>{
-    if(Platform.OS === 'web'){
+  const mostrarMensaje = (titulo, mensaje) => {
+    if (Platform.OS === 'web') {
       window.alert(`${titulo}\n${mensaje}`);
-    }else{
-      Alert.alert(titulo, mensaje);
-    }
-  };
-
-  const guardarUsuarios = async()=>{
-    if(nombre.trim()=== '' || edad.trim()=== ''){
-      mostrarMensaje('Vacios', 'Todos los campos son obligatorios tonto'); 
       return;
     }
 
-    try{
-      setCargando(true)
-      const respuesta = await fetch(`${API_URL}/v1/usuarios/`,
-        {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({nombre: nombre.trim(), edad: Number(edad)})
-        });
-      const datos = await respuesta.json();
+    Alert.alert(titulo, mensaje);
+  };
+
+  const guardarUsuario = async () => {
+    const nombreLimpio = nombre.trim();
+    const edadNumero = Number.parseInt(edad, 10);
+
+    if (nombreLimpio === '' || edad.trim() === '') {
+      mostrarMensaje('Campos vacios', 'Todos los campos son obligatorios.');
+      return;
+    }
+
+    if (Number.isNaN(edadNumero) || edadNumero < 0 || edadNumero > 120) {
+      mostrarMensaje('Edad invalida', 'La edad debe ser un numero entre 0 y 120.');
+      return;
+    }
+
+    try {
+      setCargando(true);
+
+      const respuesta = await fetch(`${API_BASE_URL}/v1/usuarios/`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nombre: nombreLimpio,
+          edad: edadNumero,
+        }),
+      });
 
       if (!respuesta.ok) {
-        throw new Error(datos.detail ?? 'La API rechazó la petición');
+        throw new Error('No se pudo guardar el usuario.');
       }
 
-      console.log(datos);
-      mostrarMensaje('Exito', 'Se guardo el usuario');
-
-      setNombre(''); //reinicia los estados y deja los inputs vacios
+      await respuesta.json();
+      mostrarMensaje('Exito', 'Se guardo el usuario correctamente.');
+      setNombre('');
       setEdad('');
-
-    }catch(error){
-      console.log("Error API: ", error);
-      mostrarMensaje("Error", `No fue posible guardar: ${error.message}`);
-
-    }finally{
+    } catch (error) {
+      console.log('Error API:', error);
+      mostrarMensaje('Error', 'No se pudo conectar guardar.');
+    } finally {
       setCargando(false);
     }
   };
@@ -75,9 +90,13 @@ export default function App() {
           onChangeText={setEdad}
         />
 
-        <Pressable style={styles.boton} onPress={guardarUsuarios} disabled={cargando} >
+        <Pressable
+          disabled={cargando}
+          style={[styles.boton, cargando && styles.botonDeshabilitado]}
+          onPress={guardarUsuario}
+        >
           <Text style={styles.textoBoton}>
-            {cargando? "Guardando...":"Agregar Usuario"} 
+            {cargando ? 'Guardando...' : 'Agregar Usuario'}
           </Text>
         </Pressable>
 
@@ -88,7 +107,7 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
-
+    
   container: {
     flex: 1,
     backgroundColor: '#F5F7FA',
@@ -139,10 +158,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
+  botonDeshabilitado: {
+    backgroundColor: '#7cbf70',
+  },
+
   textoBoton: {
     color: '#FFFFFF',
     fontSize: 17,
     fontWeight: 'bold',
   },
 
-});
+}); 
