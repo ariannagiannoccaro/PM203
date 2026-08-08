@@ -1,24 +1,27 @@
 {
   "expo": {
-    "name": "repa2",
-    "slug": "repa2",
+    "name": "Gestión de Usuarios",
+    "slug": "gestion-usuarios",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/splash-icon.png",
+    "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1e4082"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "pm203.ari.gestionusuarios"
     },
     "android": {
+      "package": "pm203.ari.gestionusuarios",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1e4082"
       },
       "edgeToEdgeEnabled": true
     },
@@ -27,6 +30,13 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b23de461-217e-4044-a11e-91e2dd0679ab"
+      }
+    },
+    "owner": "defgem"
   }
 }
